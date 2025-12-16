@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
+import { ApiPaths } from "../utils/constants";
 
 export function useGameState() {
   const [gameState, setGameState] = useState({ date: "Unknown", day: "Unknown Day", timeOfDay: "Unknown Time" });
 
   useEffect(() => {
-    fetch("/api/gamestate")
+    fetch(ApiPaths.Api_GameState)
       .then((res) => res.json())
       .then((data) => {
         setGameState({
@@ -18,7 +19,7 @@ export function useGameState() {
 
   const updateGameState = (newState) => {
     setGameState(newState);
-    fetch("/api/gamestate", {
+    fetch(ApiPaths.Api_GameState, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(newState),

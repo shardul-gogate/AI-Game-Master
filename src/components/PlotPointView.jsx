@@ -1,16 +1,16 @@
 import { useState } from "react";
 
-export default function StoryCard({ description, triggers, onUpdate }) {
+export default function PlotPointView({ description, triggers, onUpdate }) {
   const [isEditing, setIsEditing] = useState(false);
   const [desc, setDesc] = useState(description);
   const [trigs, setTrigs] = useState(triggers.join(", "));
 
   const handleSave = () => {
-    const updatedCard = {
+    const updatedPlotPoint = {
       description: desc,
       triggers: trigs.split(",").map(t => t.trim()).filter(t => t)
     };
-    if (onUpdate) onUpdate(updatedCard);
+    if (onUpdate) onUpdate(updatedPlotPoint);
     setIsEditing(false);
   };
 

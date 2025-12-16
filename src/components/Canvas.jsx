@@ -11,7 +11,7 @@ export default function Canvas({ messages, onEditMessage }) {
 
   const handleBlur = (idx) => {
     if (editingIndex === idx) {
-      onEditMessage(idx, editValue); // save changes back up
+      onEditMessage(idx, editValue);
       setEditingIndex(null);
     }
   };

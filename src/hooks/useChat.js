@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-function buildAIPrompt(messages, quests, storyCards, gameState) {
+function buildAIPrompt(messages, quests, plotPoints, gameState) {
   const contextMessages = messages
     .slice(-15, -1) // take last 15 messages excluding the latest input
     .map(message => message.trim())
@@ -21,16 +21,15 @@ function buildAIPrompt(messages, quests, storyCards, gameState) {
     })
     .join("\n");
 
-  // Scan for triggered StoryCards
   const textToScan = contextMessages + "\n" + latestInput + "\n" + questText;
-  const triggeredCards = storyCards.filter(card =>
-    card.triggers.some(trigger => {
+  const triggeredPlotPoints = plotPoints.filter(plotPoint =>
+    plotPoint.triggers.some(trigger => {
       const pattern = new RegExp(`\\b${trigger}\\b`, "i"); // word boundary, case-insensitive
       return pattern.test(textToScan);
     })
   );
-  console.log("# of Triggered Story Cards:", triggeredCards.length);
-  const storyCardText = triggeredCards.map(card => `- ${card.description}`).join("\n");
+  console.log("# of Triggered Plot Points:", triggeredPlotPoints.length);
+  const plotPointText = triggeredPlotPoints.map(plotPoint => `- ${plotPoint.description}`).join("\n");
 
   // Build final prompt
   const prompt = `
@@ -41,7 +40,7 @@ function buildAIPrompt(messages, quests, storyCards, gameState) {
   ${questText || "None"}
 
   Relevant Plot Elements:
-  ${storyCardText || "None"}
+  ${plotPointText || "None"}
 
   In-game Date and Time:
   ${gameState.date || "<unknown>"}, ${gameState.day || "<unknown>"}, ${gameState.timeOfDay || "<unknown>"}
@@ -53,7 +52,7 @@ function buildAIPrompt(messages, quests, storyCards, gameState) {
   return prompt;
 }
 
-export function useChat(quests, storyCards, gameState) {
+export function useChat(quests, plotPoints, gameState) {
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(false);
   const [model, setModel] = useState("MistralRP");
@@ -72,7 +71,7 @@ export function useChat(quests, storyCards, gameState) {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          prompt: buildAIPrompt(currentMessages, quests, storyCards, gameState),
+          prompt: buildAIPrompt(currentMessages, quests, plotPoints, gameState),
           model: model,
         }),
       });

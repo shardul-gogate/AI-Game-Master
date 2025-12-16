@@ -1,4 +1,4 @@
-export class StoryCard {
+export class PlotPoint {
   constructor(description = "", triggers = []) {
     this.description = description;
     this.triggers = triggers; // array of strings

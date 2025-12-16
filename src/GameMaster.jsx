@@ -2,20 +2,20 @@ import { useState } from "react";
 import UserInput from "./components/UserInput";
 import ActionButton from "./components/ActionButton";
 import Canvas from "./components/Canvas";
-import StoryCard from "./components/StoryCard";
+import PlotPointView from "./components/PlotPointView";
 import Quest from "./components/Quest";
 import GameState from "./components/GameState";
 import ModelSelector from "./components/ModelSelector";
 import { useChat } from "./hooks/useChat";
 import { useGameState } from "./hooks/useGameState";
 import { useQuests } from "./hooks/useQuests";
-import { useStoryCards } from "./hooks/useStoryCards";
+import { usePlotPoints } from "./hooks/usePlotPoints";
 
 export default function GameMaster() {
   const [prompt, setPrompt] = useState("");
 
   const { gameState, updateGameState } = useGameState();
-  const { storyCards, addNewStoryCard, updateStoryCard } = useStoryCards();
+  const { plotPoints, addPlotPoint, updatePlotPoint } = usePlotPoints();
   const { quests, addNewQuest, updateQuest } = useQuests();
   const {
     messages,
@@ -28,7 +28,7 @@ export default function GameMaster() {
     retry,
     continueChat,
     send
-  } = useChat(quests, storyCards, gameState);
+  } = useChat(quests, plotPoints, gameState);
 
   const handleSendPrompt = () => {
     const trimmedPrompt = prompt.trim();
@@ -97,18 +97,18 @@ export default function GameMaster() {
         </div>
       </div>
 
-      {/* Right: StoryCards + Quests */}
+      {/* Right: Plot Points + Quests */}
       <div style={{ flex: 1, display: "flex", flexDirection: "column", borderLeft: "1px solid #ddd", padding: 8, gap: 8 }}>
         
-        {/* StoryCards panel */}
+        {/* Plot Points panel */}
         <div style={{ flex: 1, display: "flex", flexDirection: "column", borderBottom: "1px solid #ddd", overflow: "auto" }}>
-          <button onClick={addNewStoryCard}>+ New Story Card</button>
-          {storyCards.map((card, idx) => (
-            <StoryCard
+          <button onClick={addPlotPoint}>+ New Plot Point</button>
+          {plotPoints.map((plotPoint, idx) => (
+            <PlotPointView
               key={idx}
-              description={card.description}
-              triggers={card.triggers}
-              onUpdate={(updatedCard) => updateStoryCard(idx, updatedCard)}
+              description={plotPoint.description}
+              triggers={plotPoint.triggers}
+              onUpdate={(updatedPlotPoint) => updatePlotPoint(idx, updatedPlotPoint)}
             />
           ))}
         </div>
