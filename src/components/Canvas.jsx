@@ -17,19 +17,7 @@ export default function Canvas({ messages, onEditMessage }) {
   };
 
   return (
-    <div
-      style={{
-        flex: 5,
-        overflowY: "auto",
-        border: "1px solid #ddd",
-        padding: 16,
-        borderRadius: 8,
-        background: "#fafafa",
-        fontFamily: "'Georgia', serif",
-        lineHeight: 1.6,
-        whiteSpace: "pre-wrap",
-      }}
-    >
+    <div className="canvas">
       {messages.map((msg, idx) => (
         <div
           key={idx}

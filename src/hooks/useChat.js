@@ -93,7 +93,10 @@ export function useChat(quests, plotPoints, gameState) {
   };
 
   const eraseLastMessage = () => setMessages(m => m.slice(0, -1));
-  const retry = () => generate(messages.slice(0, -1));
+  const retry = () => {
+    eraseLastMessage();
+    generate(messages.slice(0, -1));
+  }
   const continueChat = () => generate(messages);
   const send = (prompt) => setMessages(m => [...m, prompt]);
 

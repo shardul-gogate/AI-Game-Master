@@ -2,21 +2,20 @@ import { useState } from "react";
 import UserInput from "./components/UserInput";
 import ActionButton from "./components/ActionButton";
 import Canvas from "./components/Canvas";
-import PlotPointView from "./components/PlotPointView";
-import Quest from "./components/Quest";
 import GameState from "./components/GameState";
 import ModelSelector from "./components/ModelSelector";
 import { useChat } from "./hooks/useChat";
 import { useGameState } from "./hooks/useGameState";
 import { useQuests } from "./hooks/useQuests";
 import { usePlotPoints } from "./hooks/usePlotPoints";
+import TopAppBar from "./components/TopAppBar";
 
 export default function GameMaster() {
   const [prompt, setPrompt] = useState("");
 
   const { gameState, updateGameState } = useGameState();
-  const { plotPoints, addPlotPoint, updatePlotPoint } = usePlotPoints();
-  const { quests, addNewQuest, updateQuest } = useQuests();
+  const { plotPoints } = usePlotPoints();
+  const { quests } = useQuests();
   const {
     messages,
     setMessages,
@@ -38,9 +37,8 @@ export default function GameMaster() {
   };
 
   return (
-    <div style={{ display: "flex", height: "100vh" }}>
-      {/* Left: Canvas + Input */}
-      <div style={{ flex: 5, display: "flex", flexDirection: "column", padding: 12, gap: 8 }}>
+    <div className="game-master">
+        <TopAppBar/>
         <Canvas
           messages={messages}
           onEditMessage={(idx, newValue) => {
@@ -96,39 +94,5 @@ export default function GameMaster() {
           </div>
         </div>
       </div>
-
-      {/* Right: Plot Points + Quests */}
-      <div style={{ flex: 1, display: "flex", flexDirection: "column", borderLeft: "1px solid #ddd", padding: 8, gap: 8 }}>
-        
-        {/* Plot Points panel */}
-        <div style={{ flex: 1, display: "flex", flexDirection: "column", borderBottom: "1px solid #ddd", overflow: "auto" }}>
-          <button onClick={addPlotPoint}>+ New Plot Point</button>
-          {plotPoints.map((plotPoint, idx) => (
-            <PlotPointView
-              key={idx}
-              description={plotPoint.description}
-              triggers={plotPoint.triggers}
-              onUpdate={(updatedPlotPoint) => updatePlotPoint(idx, updatedPlotPoint)}
-            />
-          ))}
-        </div>
-
-        {/* Quests panel */}
-        <div style={{ flex: 1, display: "flex", flexDirection: "column", overflow: "auto" }}>
-          <button onClick={addNewQuest}>+ New Quest</button>
-          {quests.map((quest, idx) => (
-            <Quest
-              key={idx}
-              name={quest.name}
-              description={quest.description}
-              status={quest.status}
-              objectives={quest.objectives}
-              onUpdate={(updatedQuest) => updateQuest(idx, updatedQuest)}
-            />
-          ))}
-        </div>
-
-      </div>
-    </div>
   );
 }
