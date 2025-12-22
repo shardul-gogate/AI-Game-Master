@@ -7,13 +7,18 @@ import { useQuests } from "./hooks/useQuests";
 import { usePlotPoints } from "./hooks/usePlotPoints";
 import { useFullSave } from "./hooks/useFullSave";
 import TopAppBar from "./components/TopAppBar";
+import { useSmallModal } from "./hooks/useSmallModal";
+import SmallModal from "./components/SmallModal";
 
 export default function GameMaster() {
   const [prompt, setPrompt] = useState("");
 
   const { gameState } = useGameState();
+  
   const { plotPoints } = usePlotPoints();
+  
   const { quests } = useQuests();
+  
   const {
     messages,
     setMessages,
@@ -24,7 +29,16 @@ export default function GameMaster() {
     send,
     saveHistory
   } = useGameProgress(quests, plotPoints, gameState);
+
   const { saveFullGame, loadGame } = useFullSave();
+
+  const {
+    isSmallModalOpen,
+    smallModalTypeEnum,
+    handleSave,
+    handleCancel,
+    openModal
+  } = useSmallModal(saveFullGame, loadGame);
 
   const handleSendPrompt = () => {
     const trimmedPrompt = prompt.trim();
@@ -34,11 +48,11 @@ export default function GameMaster() {
   };
 
   return (
-    <div className="game-master">
+    <>
+      <div className="game-master">
         <TopAppBar
           saveHistory={saveHistory}
-          saveFullGame={saveFullGame}
-          loadGame={loadGame}
+          openModal={openModal}
         />
         <Canvas
           messages={messages}
@@ -59,5 +73,7 @@ export default function GameMaster() {
           continueChat={continueChat}
         />
       </div>
+      {isSmallModalOpen && <SmallModal smallModalTypeEnum={smallModalTypeEnum} onConfirm={handleSave} onCancel={handleCancel} />}
+    </>
   );
 }
