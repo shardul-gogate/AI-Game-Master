@@ -5,6 +5,7 @@ import { useGameProgress } from "./hooks/useGameProgress";
 import { useGameState } from "./hooks/useGameState";
 import { useQuests } from "./hooks/useQuests";
 import { usePlotPoints } from "./hooks/usePlotPoints";
+import { useFullSave } from "./hooks/useFullSave";
 import TopAppBar from "./components/TopAppBar";
 
 export default function GameMaster() {
@@ -23,8 +24,9 @@ export default function GameMaster() {
     send,
     saveHistory
   } = useGameProgress(quests, plotPoints, gameState);
+  const { saveFullGame } = useFullSave();
 
-  const handleSendPrompt = () => {
+    const handleSendPrompt = () => {
     const trimmedPrompt = prompt.trim();
     if (!trimmedPrompt) return;
     send(trimmedPrompt);
@@ -33,7 +35,10 @@ export default function GameMaster() {
 
   return (
     <div className="game-master">
-        <TopAppBar saveHistory={saveHistory} />
+        <TopAppBar
+          saveHistory={saveHistory}
+          saveFullGame={saveFullGame}
+        />
         <Canvas
           messages={messages}
           onEditMessage={(index, newValue) => {

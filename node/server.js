@@ -7,6 +7,7 @@ import registerPlotPoints from "./routes/plotPoints.js";
 import registerQuests from "./routes/quests.js";
 import registerGameState from "./routes/gameState.js";
 import registerProgress from "./routes/progress.js";
+import registerFullSave from "./routes/fullSave.js";
 
 const app = express();
 app.use(cors());
@@ -18,6 +19,7 @@ registerPlotPoints(app);
 registerQuests(app);
 registerGameState(app);
 registerProgress(app);
+registerFullSave(app);
 
 
 app.listen(3001, () => console.log("Node server listening on port http://localhost:3001"));
