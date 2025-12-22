@@ -1,20 +1,21 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGear, faScroll, faBook, faFloppyDisk, faDownload, faUpload } from '@fortawesome/free-solid-svg-icons';
+import { IconButtonEnum } from '../utils/enums';
 
 export function IconButton({ icon, onClick }) {
     const getIcon = () => {
         switch (icon) {
-            case "settings":
+            case IconButtonEnum.SETTINGS:
                 return faGear;
-            case "quests":
+            case IconButtonEnum.QUESTS:
                 return faScroll;
-            case "plotpoints":
+            case IconButtonEnum.PLOT_POINTS:
                 return faBook;
-            case "quicksave":
+            case IconButtonEnum.QUICK_SAVE:
                 return faFloppyDisk;
-            case "fullsave":
+            case IconButtonEnum.FULL_SAVE:
                 return faDownload;
-            case "load":
+            case IconButtonEnum.LOAD:
                 return faUpload;
             default:
                 return null;
@@ -23,17 +24,17 @@ export function IconButton({ icon, onClick }) {
 
     const getTooltip = () => {
         switch (icon) {
-            case "settings":
+            case IconButtonEnum.SETTINGS:
                 return "Settings";
-            case "quests":
+            case IconButtonEnum.QUESTS:
                 return "Quests";
-            case "plotpoints":
+            case IconButtonEnum.PLOT_POINTS:
                 return "Plot Points";
-            case "quicksave":
+            case IconButtonEnum.QUICK_SAVE:
                 return "Quick Save";
-            case "fullsave":
+            case IconButtonEnum.FULL_SAVE:
                 return "Full Save";
-            case "load":
+            case IconButtonEnum.LOAD:
                 return "Load";
             default:
                 return null;

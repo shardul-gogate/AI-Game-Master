@@ -1,3 +1,5 @@
+import { QuestStatusEnum } from "./enums";
+
 export function buildAIPrompt(messages, quests, plotPoints, gameState) {
   const contextMessages = messages
     .slice(-15, -1) // take last 15 messages excluding the latest input
@@ -9,7 +11,7 @@ export function buildAIPrompt(messages, quests, plotPoints, gameState) {
     .trim();
 
   const questText = quests
-    .filter(quest => quest.status === "Active")
+    .filter(quest => quest.status === QuestStatusEnum.ACTIVE)
     .map(quest => {
       const objectives = quest.objectives
         .map(objective => `${objective.name} - [${objective.completed ? "done" : "pending"}]`)

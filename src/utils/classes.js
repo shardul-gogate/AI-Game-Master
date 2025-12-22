@@ -1,3 +1,5 @@
+import { QuestStatusEnum } from "./enums";
+
 export class PlotPoint {
   constructor(description = "", triggers = []) {
     this.description = description;
@@ -11,12 +13,6 @@ export class QuestObjective {
     this.completed = completed;
   }
 }
-
-export const QuestStatusEnum = {
-  ACTIVE: "Active",
-  INACTIVE: "Inactive",
-  FINISHED: "Finished",
-};
 
 export class Quest {
   constructor(objectives = [], status = QuestStatusEnum.INACTIVE) {

@@ -1,17 +1,19 @@
 import { useState } from "react";
 import { IconButton } from "./IconButton";
-import SaveGameModal from "./SaveGameModal";
+import SmallModal from "./SmallModal";
+import { IconButtonEnum, SmallModalTypEnum } from "../utils/enums";
 
 export default function TopAppBar({ saveHistory, saveFullGame }) {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isSmallModalOpen, setIsSmallModalOpen] = useState(false);
+  const [smallModalTypeEnum, setSmallModalTypeEnum] = useState(null);
 
   const handleSave = (saveName) => {
     saveFullGame(saveName);
-    setIsModalOpen(false);
+    setIsSmallModalOpen(false);
   };
 
   const handleCancel = () => {
-    setIsModalOpen(false);
+    setIsSmallModalOpen(false);
   };
 
   return (
@@ -19,15 +21,27 @@ export default function TopAppBar({ saveHistory, saveFullGame }) {
       <div className='top-app-bar'>
         <div className="top-app-bar-title">AI Game Master</div>
         <div className='top-app-bar-button-row'>
-          <IconButton icon="quicksave" onClick={saveHistory} />
-          <IconButton icon="fullsave" onClick={() => setIsModalOpen(true)} />
-          <IconButton icon="load" onClick={() => console.log("Edit clicked")} />
-          <IconButton icon="plotpoints" onClick={() => console.log("Delete clicked")} />
-          <IconButton icon="quests" onClick={() => console.log("Save clicked")} />
-          <IconButton icon="settings" onClick={() => console.log("Save clicked")} />
+          <IconButton icon={IconButtonEnum.QUICK_SAVE} onClick={saveHistory} />
+          <IconButton
+            icon={IconButtonEnum.FULL_SAVE}
+            onClick={() => {
+              setSmallModalTypeEnum(SmallModalTypEnum.SAVE);
+              setIsSmallModalOpen(true);
+            }}
+          />
+          <IconButton
+            icon={IconButtonEnum.LOAD}
+            onClick={() => {
+              setSmallModalTypeEnum(SmallModalTypEnum.LOAD);
+              setIsSmallModalOpen(true);
+            }}
+          />
+          <IconButton icon={IconButtonEnum.PLOT_POINTS} onClick={() => console.log("Delete clicked")} />
+          <IconButton icon={IconButtonEnum.QUESTS} onClick={() => console.log("Save clicked")} />
+          <IconButton icon={IconButtonEnum.SETTINGS} onClick={() => console.log("Save clicked")} />
         </div>
       </div>
-      {isModalOpen && <SaveGameModal onSave={handleSave} onCancel={handleCancel} />}
+      {isSmallModalOpen && <SmallModal smallModalTypeEnum={smallModalTypeEnum} onConfirm={handleSave} onCancel={handleCancel} />}
     </>
   );
 }

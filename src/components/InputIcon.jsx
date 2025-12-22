@@ -1,20 +1,21 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck, faXmark, faPaperPlane, faArrowsRotate, faDeleteLeft, faAnglesRight } from '@fortawesome/free-solid-svg-icons';
+import { InputIconEnum } from '../utils/enums';
 
 export function InputIcon({ icon, onClick, disabled }) {
     const getIcon = () => {
         switch (icon) {
-            case "done":
+            case InputIconEnum.DONE:
                 return faCheck;
-            case "cancel":
+            case InputIconEnum.CANCEL:
                 return faXmark;
-            case "send":
+            case InputIconEnum.SEND:
                 return faPaperPlane;
-            case "regenerate":
+            case InputIconEnum.REGENERATE:
                 return faArrowsRotate;
-            case "delete":
+            case InputIconEnum.DELETE:
                 return faDeleteLeft;
-            case "continue":
+            case InputIconEnum.CONTINUE:
                 return faAnglesRight;
             default:
                 return null;
@@ -23,17 +24,17 @@ export function InputIcon({ icon, onClick, disabled }) {
 
     const getTooltip = () => {
         switch (icon) {
-            case "done":
+            case InputIconEnum.DONE:
                 return "Confirm Edit";
-            case "cancel":
+            case InputIconEnum.CANCEL:
                 return "Cancel Edit";
-            case "send":
+            case InputIconEnum.SEND:
                 return "Send Prompt";
-            case "regenerate":
+            case InputIconEnum.REGENERATE:
                 return "Regenerate Last Message";
-            case "delete":
+            case InputIconEnum.DELETE:
                 return "Delete Last Message";
-            case "continue":
+            case InputIconEnum.CONTINUE:
                 return "Continue Generation";
             default:
                 return null;

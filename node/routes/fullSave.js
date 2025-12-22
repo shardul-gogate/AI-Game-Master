@@ -1,6 +1,7 @@
 import fs from "fs";
 import path from "path";
 import { ApiPaths } from "../utils/constants.js";
+import { makeDirectory, copyFile } from "../utils/fileHelpers.js";
 
 export default function register(app) {
     app.post(ApiPaths.Api_FullSave, async (req, res) => {
@@ -15,14 +16,14 @@ export default function register(app) {
         const newSaveDir = path.join(savedGamesDir, saveName);
 
         try {
-            await fs.promises.mkdir(newSaveDir, { recursive: true });
+            await makeDirectory(newSaveDir);
 
             const filesToCopy = ["gamestate.json", "plotpoints.json", "progress.json", "quests.json"];
 
             for (const file of filesToCopy) {
                 const sourcePath = path.join(dataDir, file);
                 const destPath = path.join(newSaveDir, file);
-                await fs.promises.copyFile(sourcePath, destPath);
+                await copyFile(sourcePath, destPath);
             }
 
             res.json({ ok: true, message: `Game saved successfully as '${saveName}'.` });
