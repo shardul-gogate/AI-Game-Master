@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faGear, faScroll, faBook, faFloppyDisk, faDownload, faUpload } from '@fortawesome/free-solid-svg-icons';
+import { faGear, faScroll, faBook, faFloppyDisk, faDownload, faUpload, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { IconButtonEnum } from '../utils/enums';
 
 export function IconButton({ icon, onClick }) {
@@ -17,6 +17,8 @@ export function IconButton({ icon, onClick }) {
                 return faDownload;
             case IconButtonEnum.LOAD:
                 return faUpload;
+            case IconButtonEnum.CLOSE:
+                return faXmark;
             default:
                 return null;
         }
@@ -36,6 +38,8 @@ export function IconButton({ icon, onClick }) {
                 return "Full Save";
             case IconButtonEnum.LOAD:
                 return "Load";
+            case IconButtonEnum.CLOSE:
+                return "Close";
             default:
                 return null;
         }

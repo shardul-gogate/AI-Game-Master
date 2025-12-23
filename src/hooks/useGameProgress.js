@@ -41,7 +41,10 @@ export function useGameProgress(quests, plotPoints, gameState) {
 
   const continueChat = () => generate(messages);
 
-  const send = (prompt) => setMessages(m => [...m, prompt]);
+  const send = (prompt) => {
+    setMessages(m => [...m, prompt]);
+    generate([...messages, prompt]);
+  };
 
   return { messages, setMessages, loading, model, setModel, saveHistory, eraseLastMessage, retry, continueChat, send };
 }

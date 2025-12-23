@@ -1,7 +1,7 @@
 import { IconButton } from "./IconButton";
-import { IconButtonEnum, SmallModalTypEnum } from "../utils/enums";
+import { IconButtonEnum, LargeModalTypeEnum, SmallModalTypEnum } from "../utils/enums";
 
-export default function TopAppBar({ saveHistory, openModal }) {
+export default function TopAppBar({ saveHistory, openSmallModal, openLargeModal }) {
 
   return (
     <div className='top-app-bar'>
@@ -10,13 +10,13 @@ export default function TopAppBar({ saveHistory, openModal }) {
         <IconButton icon={IconButtonEnum.QUICK_SAVE} onClick={saveHistory} />
         <IconButton
           icon={IconButtonEnum.FULL_SAVE}
-          onClick={() => openModal(SmallModalTypEnum.SAVE)}
+          onClick={() => openSmallModal(SmallModalTypEnum.SAVE)}
         />
         <IconButton
           icon={IconButtonEnum.LOAD}
-          onClick={() => openModal(SmallModalTypEnum.LOAD)}
+          onClick={() => openSmallModal(SmallModalTypEnum.LOAD)}
         />
-        <IconButton icon={IconButtonEnum.PLOT_POINTS} onClick={() => console.log("Delete clicked")} />
+        <IconButton icon={IconButtonEnum.PLOT_POINTS} onClick={() => openLargeModal(LargeModalTypeEnum.PLOT_POINTS)} />
         <IconButton icon={IconButtonEnum.QUESTS} onClick={() => console.log("Save clicked")} />
         <IconButton icon={IconButtonEnum.SETTINGS} onClick={() => console.log("Save clicked")} />
       </div>

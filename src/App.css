@@ -1,10 +1,23 @@
+:root {
+    --background-color: #262626;
+    --text-color: #f1f1f1;
+    --hover-background-color: #373737;
+    --primary-accent-color: #e56717;
+    --disabled-text-color: #484848;
+    --white: white;
+    --success-color: #2e7d32;
+    --error-color: #d32f2f;
+    --shadow-color: #202020;
+    --button-hover-color: #dfdfdf;
+}
+
 @import url('https://fonts.googleapis.com/css2?family=Almendra:wght@400;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Grenze:wght@400;700&display=swap');
 
 body {
     font-family: 'Grenze';
-    background-color: #262626;
-    color: #f1f1f1;
+    background-color: var(--background-color);
+    color: var(--text-color);
 }
 
 .game-master {
@@ -38,12 +51,12 @@ body {
   padding: 12px 12px;
   border: none;
   background: transparent;
-  color: #f1f1f1;
+  color: var(--text-color);
   cursor: pointer;
 }
 
 .top-app-bar-icon-button:hover {
-    background-color: #373737;
+    background-color: var(--hover-background-color);
 }
 
 .canvas {
@@ -57,7 +70,7 @@ body {
 .canvas-message:hover {
     text-decoration: underline;
     text-decoration-style: dashed;
-    text-decoration-color: #e56717;
+    text-decoration-color: var(--primary-accent-color);
     text-decoration-thickness: 2px;
 }
 
@@ -67,14 +80,13 @@ body {
 }
 
 .canvas::-webkit-scrollbar-thumb {
-    background-color: #e56717;
+    background-color: var(--primary-accent-color);
     border-radius: 12px;
     height: 36px;
-    
 }
 
 .canvas-message-edit-area, .user-input-area {
-    border: 2px solid #e56717;
+    border: 2px solid var(--primary-accent-color);
     border-radius: 12px;
     display: flex;
     flex-direction: column;
@@ -89,7 +101,7 @@ body {
     overflow-y: auto;
     font-family: 'Grenze';
     background: transparent;
-    color: #f1f1f1;
+    color: var(--text-color);
     padding: 6px 6px;
     width: 100%;
     resize: none;
@@ -117,7 +129,8 @@ body {
 
 .canvas-input-icons, .user-input-icons {
     display: flex;
-    justify-content: space-between
+    gap: 18px;
+    justify-content: end
 }
 
 .canvas-input-icons {
@@ -132,17 +145,17 @@ body {
     background: transparent;
     padding: 12px 12px;
     border: none;
-    color: #f1f1f1;
+    color: var(--text-color);
     cursor: pointer;
 }
 
 .user-input-icon-button:hover {
-    background-color: #373737;
+    background-color: var(--hover-background-color);
 }
 
 .user-input-icon-button:disabled {
     background-color: transparent;
-    color: #484848;
+    color: var(--disabled-text-color);
     cursor: not-allowed;
 }
 
@@ -152,7 +165,7 @@ body {
     right: 20px;
     padding: 12px 24px;
     border-radius: 8px;
-    color: white;
+    color: var(--white);
     font-weight: bold;
     z-index: 1000;
     box-shadow: 0 4px 6px rgba(0,0,0,0.3);
@@ -160,11 +173,11 @@ body {
 }
 
 .notification-toast.success {
-    background-color: #2e7d32;
+    background-color: var(--success-color);
 }
 
 .notification-toast.error {
-    background-color: #d32f2f;
+    background-color: var(--error-color);
 }
 
 .modal-overlay {
@@ -181,7 +194,7 @@ body {
 }
 
 .small-modal {
-  background-color: #262626;
+  background-color: var(--background-color);
   padding: 18px;
   border-radius: 12px;
   width: 360px;
@@ -200,9 +213,9 @@ body {
   font-size: 18px;
   padding: 6px;
   border-radius: 4px;
-  border: 1px solid #e56717;
-  background-color: #373737;
-  color: #f1f1f1;
+  border: 1px solid var(--primary-accent-color);
+  background-color: var(--hover-background-color);
+  color: var(--text-color);
 }
 
 .small-modal-buttons {
@@ -216,11 +229,148 @@ body {
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  background-color: #e56717;
-  color: #f1f1f1;
+  background-color: var(--primary-accent-color);
+  color: var(--text-color);
   font-weight: bold;
 }
 
 .small-modal-buttons button:hover {
   opacity: 0.9;
+}
+
+.large-modal {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    background-color: var(--background-color);
+    width: 80%;
+    height: 80%;
+    border-radius: 18px;
+    padding: 18px 18px;
+}
+
+.close-large-modal {
+    align-self: flex-end;
+}
+
+.large-modal input {
+  font-size: 21px;
+  padding: 6px;
+  border-radius: 4px;
+  border: 1px solid var(--primary-accent-color);
+  background-color: var(--hover-background-color);
+  color: var(--text-color);
+}
+
+.large-modal input:disabled {
+  border-color: var(--hover-background-color);
+}
+
+.cards-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    overflow-y: scroll;
+    overflow-wrap: anywhere;
+    gap: 18px;
+    box-sizing: border-box;
+}
+
+.cards-grid::-webkit-scrollbar {
+    background-color: transparent;
+    width: 12px;
+}
+
+.cards-grid::-webkit-scrollbar-thumb {
+    background-color: var(--primary-accent-color);
+    border-radius: 12px;
+    height: 36px;
+}
+
+.plot-point-card, .quest-card {
+    padding: 12px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    border-radius: 12px;
+    background-color: var(--hover-background-color);
+    color: var(--text-color);
+    z-index: 200;
+    box-shadow: var(--shadow-color) 3px 3px;
+}
+
+.card-description {
+    font-size: 21px;
+}
+
+.card-icon-button-row {
+    display: flex;
+    width: 100%;
+    justify-content: end;
+    gap: 12px;
+}
+
+.card-icon-button {
+  padding: 6px 6px;
+  background: var(--text-color);
+  color: var(--hover-background-color);
+  border-width: 1px;
+  border-color: transparent;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.card-icon-button:hover {
+    background-color: var(--button-hover-color);
+}
+
+.plot-point-triggers {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    overflow-y: scroll;
+    gap: 18px;
+    margin-top: auto;
+}
+
+.plot-point-triggers::-webkit-scrollbar {
+    display: none;
+}
+
+.plot-point-trigger {
+    text-align: center;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    background-color: var(--text-color);
+    border-radius: 12px;
+    padding: 1px 6px;
+    color: var(--hover-background-color);
+    font-size: 18px;
+}
+
+.plot-point-card textarea {
+    font-size: 21px;
+    line-height: 1.6;
+    min-height: 24px;
+    overflow-y: auto;
+    font-family: 'Grenze';
+    background: transparent;
+    color: var(--text-color);
+    padding: 6px 6px;
+    width: 100%;
+    resize: none;
+    border: none;
+    outline: 1px solid var(--primary-accent-color);
+}
+
+.plot-point-card textarea:focus {
+    outline: 1px solid var(--primary-accent-color);
+}
+
+.plot-point-card input {
+  font-size: 18px;
+  padding: 6px;
+  border-radius: 4px;
+  border: 1px solid var(--primary-accent-color);
+  background-color: var(--hover-background-color);
+  color: var(--text-color);
 }

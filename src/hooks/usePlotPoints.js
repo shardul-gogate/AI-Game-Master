@@ -10,20 +10,28 @@ export function usePlotPoints() {
       .then((data) => setPlotPoints(data));
   }, []);
 
-  const addPlotPoint = () => {
-    setPlotPoints(prev => [
-      ...prev,
-      { description: "", triggers: [] }
-    ]);
+  const addPlotPoint = (index) => {
+    setPlotPoints(prev => {
+      const newPlotPoints = [...prev];
+      newPlotPoints.splice(index, 0, { description: "", triggers: [] });
+      return newPlotPoints;
+    });
   };
 
   const updatePlotPoint = (index, updatedPlotPoint) => {
     const currentPlotPoints = [...plotPoints];
     currentPlotPoints[index] = updatedPlotPoint;
     setPlotPoints(currentPlotPoints);
-
     api.post(ApiPaths.Api_PlotPoints, currentPlotPoints);
   };
 
-  return { plotPoints, addPlotPoint, updatePlotPoint };
+  const deletePlotPoint = (index) => {
+    const currentPlotPoints = [...plotPoints];
+    currentPlotPoints.splice(index, 1);
+    setPlotPoints(currentPlotPoints);
+    api.post(ApiPaths.Api_PlotPoints, currentPlotPoints);
+  };
+
+
+  return { plotPoints, addPlotPoint, updatePlotPoint, deletePlotPoint };
 }

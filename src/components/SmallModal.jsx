@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { SmallModalTypEnum } from '../utils/enums';
 
 export default function SmallModal({ smallModalTypeEnum, onConfirm, onCancel }) {

@@ -8,16 +8,26 @@ import { usePlotPoints } from "./hooks/usePlotPoints";
 import { useFullSave } from "./hooks/useFullSave";
 import TopAppBar from "./components/TopAppBar";
 import { useSmallModal } from "./hooks/useSmallModal";
+import { useLargeModal } from "./hooks/useLargeModal";
 import SmallModal from "./components/SmallModal";
+import PlotPointsModal from "./components/PlotPointsModal";
+import { LargeModalTypeEnum } from "./utils/enums";
 
 export default function GameMaster() {
   const [prompt, setPrompt] = useState("");
 
   const { gameState } = useGameState();
   
-  const { plotPoints } = usePlotPoints();
+  const {
+    plotPoints,
+    addPlotPoint,
+    updatePlotPoint,
+    deletePlotPoint
+  } = usePlotPoints();
   
   const { quests } = useQuests();
+
+  const { saveFullGame, loadGame } = useFullSave();
   
   const {
     messages,
@@ -30,15 +40,22 @@ export default function GameMaster() {
     saveHistory
   } = useGameProgress(quests, plotPoints, gameState);
 
-  const { saveFullGame, loadGame } = useFullSave();
-
   const {
     isSmallModalOpen,
     smallModalTypeEnum,
-    handleSave,
-    handleCancel,
-    openModal
+    handleSave: handleSaveSmallModal,
+    handleCancel: handleCancelSmallModal,
+    openModal: openSmallModal
   } = useSmallModal(saveFullGame, loadGame);
+
+  const {
+    isLargeModalOpen,
+    largeModalTypeEnum,
+    handleSave: handleSaveLargeModal,
+    handleCancel: handleCancelLargeModal,
+    openModal: openLargeModal,
+    closeModal: closeLargeModal
+  } = useLargeModal();
 
   const handleSendPrompt = () => {
     const trimmedPrompt = prompt.trim();
@@ -52,7 +69,8 @@ export default function GameMaster() {
       <div className="game-master">
         <TopAppBar
           saveHistory={saveHistory}
-          openModal={openModal}
+          openModal={openSmallModal}
+          openLargeModal={openLargeModal}
         />
         <Canvas
           messages={messages}
@@ -65,7 +83,7 @@ export default function GameMaster() {
         <UserInput
           value={prompt}
           onChange={setPrompt}
-          placeholder="Describe your action or dialogue"
+          placeholder="Describe your action or dialogue . . ."
           onSend={handleSendPrompt}
           loading={loading}
           eraseLastMessage={eraseLastMessage}
@@ -73,7 +91,14 @@ export default function GameMaster() {
           continueChat={continueChat}
         />
       </div>
-      {isSmallModalOpen && <SmallModal smallModalTypeEnum={smallModalTypeEnum} onConfirm={handleSave} onCancel={handleCancel} />}
+      {isSmallModalOpen && <SmallModal smallModalTypeEnum={smallModalTypeEnum} onConfirm={handleSaveSmallModal} onCancel={handleCancelSmallModal} />}
+      {isLargeModalOpen && largeModalTypeEnum === LargeModalTypeEnum.PLOT_POINTS && <PlotPointsModal
+        closeModal={closeLargeModal}
+        plotPoints={plotPoints}
+        addPlotPoint={addPlotPoint}
+        updatePlotPoint={updatePlotPoint}
+        deletePlotPoint={deletePlotPoint}
+      />}
     </>
   );
 }
