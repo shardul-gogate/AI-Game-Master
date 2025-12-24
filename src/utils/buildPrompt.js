@@ -47,6 +47,5 @@ export function buildAIPrompt(messages, quests, plotPoints, gameState) {
   Player Input:
   ${latestInput}
   `;
-  console.log("Prompt : ", prompt)
   return prompt;
 }

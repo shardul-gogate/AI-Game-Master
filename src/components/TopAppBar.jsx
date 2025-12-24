@@ -17,7 +17,7 @@ export default function TopAppBar({ saveHistory, openSmallModal, openLargeModal 
           onClick={() => openSmallModal(SmallModalTypEnum.LOAD)}
         />
         <IconButton icon={IconButtonEnum.PLOT_POINTS} onClick={() => openLargeModal(LargeModalTypeEnum.PLOT_POINTS)} />
-        <IconButton icon={IconButtonEnum.QUESTS} onClick={() => console.log("Save clicked")} />
+        <IconButton icon={IconButtonEnum.QUESTS} onClick={() => openLargeModal(LargeModalTypeEnum.QUESTS)} />
         <IconButton icon={IconButtonEnum.SETTINGS} onClick={() => console.log("Save clicked")} />
       </div>
     </div>

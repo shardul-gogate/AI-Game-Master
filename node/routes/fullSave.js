@@ -6,7 +6,6 @@ import { validGameName } from "../utils/validator.js";
 export default function register(app) {
     app.post(ApiPaths.Api_FullSave, async (req, res) => {
         const { gameName } = req.body;
-        console.log("this is game name", gameName)
 
         if (!validGameName(gameName)) {
             return res.status(400).json({ ok: false, message: "Invalid save name." });
@@ -36,7 +35,6 @@ export default function register(app) {
 
     app.post(ApiPaths.Api_LoadGame, async (req, res) => {
         const { gameName } = req.body;
-        console.log(gameName)
 
         if (!validGameName(gameName)) {
             return res.status(400).json({ ok: false, message: "Invalid save name." });

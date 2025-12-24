@@ -4,14 +4,6 @@ export const useLargeModal = () => {
   const [isLargeModalOpen, setIsLargeModalOpen] = useState(false);
   const [largeModalTypeEnum, setLargeModalTypeEnum] = useState(null);
 
-  const handleSave = () => {
-    setIsLargeModalOpen(false);
-  };
-
-  const handleCancel = () => {
-    setIsLargeModalOpen(false);
-  };
-
   const openModal = (modalType) => {
     setLargeModalTypeEnum(modalType);
     setIsLargeModalOpen(true);
@@ -25,8 +17,6 @@ export const useLargeModal = () => {
   return {
     isLargeModalOpen,
     largeModalTypeEnum,
-    handleSave,
-    handleCancel,
     openModal,
     closeModal
   };

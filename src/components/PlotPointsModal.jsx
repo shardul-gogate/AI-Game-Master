@@ -28,6 +28,7 @@ export default function PlotPointsModal ({ closeModal, plotPoints, addPlotPoint,
     <div className="modal-overlay">
       <div className="large-modal">
         <div className="close-large-modal">
+          <span>Plot Points</span>
           <IconButton icon={IconButtonEnum.CLOSE} onClick={closeModal}/>
         </div>
         <input
@@ -38,26 +39,28 @@ export default function PlotPointsModal ({ closeModal, plotPoints, addPlotPoint,
           onChange={(e) => setFilter(e.target.value)}
         />
         <div className="cards-grid">
-          {plotPoints.map((plotPoint, index) => (
-            plotPoint.description.toLowerCase().includes(filter.toLowerCase()) && (
-              isEditing && editingIndex === index ? (
-                <EditPlotPointCard
-                  key={index}
-                  plotPoint={plotPoint}
-                  handleEdit={handleEdit}
-                  cancelEdit={cancelEdit}
-                />
-              ) : (
-                <PlotPointCard
-                  key={index}
-                  plotPoint={plotPoint}
-                  addPlotPoint={() => addPlotPoint(index + 1)}
-                  editPlotPoint={() => editPlotPoint(index)}
-                  deletePlotPoint={() => deletePlotPoint(index)}
-                />
+          {
+            plotPoints.map((plotPoint, index) => (
+              plotPoint.description.toLowerCase().includes(filter.toLowerCase()) && (
+                isEditing && editingIndex === index ? (
+                  <EditPlotPointCard
+                    key={index}
+                    plotPoint={plotPoint}
+                    handleEdit={handleEdit}
+                    cancelEdit={cancelEdit}
+                  />
+                ) : (
+                  <PlotPointCard
+                    key={index}
+                    plotPoint={plotPoint}
+                    addPlotPoint={() => addPlotPoint(index + 1)}
+                    editPlotPoint={() => editPlotPoint(index)}
+                    deletePlotPoint={() => deletePlotPoint(index)}
+                  />
+                )
               )
-            )
-          ))}
+            ))
+          }
         </div>
       </div>
     </div>
@@ -72,10 +75,10 @@ function PlotPointCard ({ plotPoint, addPlotPoint, editPlotPoint, deletePlotPoin
         <CardIconButton icon={CardIconButtonEnum.EDIT} onClick={editPlotPoint}/>
         <CardIconButton icon={CardIconButtonEnum.DELETE} onClick={deletePlotPoint}/>
       </div>
-      <div className="card-description">{plotPoint.description}</div>
+      <span className="card-description">{plotPoint.description}</span>
       <div className="plot-point-triggers">
         {plotPoint.triggers.map(trigger => (
-          <div className="plot-point-trigger" key={trigger}>{trigger}</div>
+          <span className="plot-point-trigger" key={trigger}>{trigger}</span>
         ))}
       </div>
     </div>

@@ -10,20 +10,27 @@ export function useQuests() {
       .then((data) => setQuests(data));
   }, []);
 
-  const addNewQuest = () => {
-    setQuests(prev => [
-      ...prev,
-      { name: "", status: "Inactive", objectives: [] }
-    ]);
+  const addNewQuest = (index) => {
+    setQuests(prev => {
+      const newQuests = [...prev];
+      newQuests.splice(index, 0, { name: "", status: "",description: "", objectives: [] });
+      return newQuests;
+    });
   };
 
   const updateQuest = (index, updatedQuest) => {
     const newQuests = [...quests];
     newQuests[index] = updatedQuest;
     setQuests(newQuests);
-
     api.post(ApiPaths.Api_Quests, newQuests);
   };
 
-  return { quests, addNewQuest, updateQuest };
+  const deleteQuest = (index) => {
+    const currentQuests = [...quests];
+    currentQuests.splice(index, 1);
+    setQuests(currentQuests);
+    api.post(ApiPaths.Api_Quests, currentQuests);
+  };
+
+  return { quests, addNewQuest, updateQuest, deleteQuest };
 }

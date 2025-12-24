@@ -1,5 +1,5 @@
 :root {
-    --background-color: #262626;
+    --background-color: #242424;
     --text-color: #f1f1f1;
     --hover-background-color: #373737;
     --primary-accent-color: #e56717;
@@ -8,7 +8,6 @@
     --success-color: #2e7d32;
     --error-color: #d32f2f;
     --shadow-color: #202020;
-    --button-hover-color: #dfdfdf;
 }
 
 @import url('https://fonts.googleapis.com/css2?family=Almendra:wght@400;700&display=swap');
@@ -250,7 +249,15 @@ body {
 }
 
 .close-large-modal {
-    align-self: flex-end;
+    display: flex;
+    justify-content: end
+}
+
+.close-large-modal span {
+    margin-right: auto;
+    margin-left: auto;
+    color: var(--text-color);
+    font-size: 36px;
 }
 
 .large-modal input {
@@ -311,16 +318,15 @@ body {
 
 .card-icon-button {
   padding: 6px 6px;
-  background: var(--text-color);
-  color: var(--hover-background-color);
+  background: var(--hover-background-color);
+  color: var(--text-color);
   border-width: 1px;
   border-color: transparent;
-  border-radius: 50%;
   cursor: pointer;
 }
 
 .card-icon-button:hover {
-    background-color: var(--button-hover-color);
+    background-color: var(--disabled-text-color);
 }
 
 .plot-point-triggers {
@@ -347,7 +353,7 @@ body {
     font-size: 18px;
 }
 
-.plot-point-card textarea {
+.plot-point-card textarea, .quest-card textarea {
     font-size: 21px;
     line-height: 1.6;
     min-height: 24px;
@@ -366,11 +372,59 @@ body {
     outline: 1px solid var(--primary-accent-color);
 }
 
-.plot-point-card input {
+.plot-point-card input, .quest-card input {
   font-size: 18px;
   padding: 6px;
   border-radius: 4px;
   border: 1px solid var(--primary-accent-color);
   background-color: var(--hover-background-color);
   color: var(--text-color);
+  font-family: "Grenze";
+}
+
+.quest-card input {
+    font-size: 21px;
+}
+
+.quest-name {
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: underline;
+}
+
+.quest-status {
+    margin-right: auto;
+    color: var(--white);
+    background-color: var(--hover-background-color);
+    font-family: "Grenze";
+    font-size: 18px;
+}
+
+.quest-finished {
+    color: var(--success-color);
+}
+
+.quest-inactive {
+    color: var(--error-color);
+}
+
+.quest-active {
+    color: var(--text-color);
+}
+
+.quest-objectives-list {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.quest-objective {
+    display: flex;
+    gap: 18px;
+}
+
+.quest-objective .name-input {
+    font-size: 18px;
+    width: 100%;
 }

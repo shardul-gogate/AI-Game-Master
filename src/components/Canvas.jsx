@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import EditCanvasMessage from "./EditCanvasMessage";
 
 export default function Canvas({ messages, onEditMessage }) {
@@ -21,27 +21,36 @@ export default function Canvas({ messages, onEditMessage }) {
     setEditValue("");
   };
 
+  const refMessagesEnd = useRef(null)
+
+  useEffect(() => {
+    refMessagesEnd.current?.scrollIntoView({ behavior: "smooth" })
+  }, [messages])
+
   return (
     <div className="canvas">
-      {messages.map((msg, index) => (
-        editingIndex === index ? (
-          <EditCanvasMessage
-            key={index}
-            value={editValue}
-            onConfirmEdit={handleConfirmEdit}
-            onDiscard={handleDiscardEdit}
-            onChange={setEditValue}
-          />
-        ) : (
-          <div
-            className="canvas-message"
-            key={index}
-            onClick={() => handleStartEdit(index, msg)}
-          >
-            {msg}
-          </div>
-        )
-      ))}
+      {
+        messages.map((msg, index) => (
+          editingIndex === index ? (
+            <EditCanvasMessage
+              key={index}
+              value={editValue}
+              onConfirmEdit={handleConfirmEdit}
+              onDiscard={handleDiscardEdit}
+              onChange={setEditValue}
+            />
+          ) : (
+            <div
+              className="canvas-message"
+              key={index}
+              onClick={() => handleStartEdit(index, msg)}
+            >
+              {msg}
+            </div>
+          )
+        ))
+      }
+      <div ref={refMessagesEnd} />
     </div>
   );
 }

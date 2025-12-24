@@ -12,6 +12,7 @@ import { useLargeModal } from "./hooks/useLargeModal";
 import SmallModal from "./components/SmallModal";
 import PlotPointsModal from "./components/PlotPointsModal";
 import { LargeModalTypeEnum } from "./utils/enums";
+import QuestsModal from "./components/QuestsModal";
 
 export default function GameMaster() {
   const [prompt, setPrompt] = useState("");
@@ -25,7 +26,12 @@ export default function GameMaster() {
     deletePlotPoint
   } = usePlotPoints();
   
-  const { quests } = useQuests();
+  const {
+    quests,
+    addNewQuest,
+    updateQuest,
+    deleteQuest
+  } = useQuests();
 
   const { saveFullGame, loadGame } = useFullSave();
   
@@ -51,8 +57,6 @@ export default function GameMaster() {
   const {
     isLargeModalOpen,
     largeModalTypeEnum,
-    handleSave: handleSaveLargeModal,
-    handleCancel: handleCancelLargeModal,
     openModal: openLargeModal,
     closeModal: closeLargeModal
   } = useLargeModal();
@@ -69,7 +73,7 @@ export default function GameMaster() {
       <div className="game-master">
         <TopAppBar
           saveHistory={saveHistory}
-          openModal={openSmallModal}
+          openSmallModal={openSmallModal}
           openLargeModal={openLargeModal}
         />
         <Canvas
@@ -92,13 +96,26 @@ export default function GameMaster() {
         />
       </div>
       {isSmallModalOpen && <SmallModal smallModalTypeEnum={smallModalTypeEnum} onConfirm={handleSaveSmallModal} onCancel={handleCancelSmallModal} />}
-      {isLargeModalOpen && largeModalTypeEnum === LargeModalTypeEnum.PLOT_POINTS && <PlotPointsModal
-        closeModal={closeLargeModal}
-        plotPoints={plotPoints}
-        addPlotPoint={addPlotPoint}
-        updatePlotPoint={updatePlotPoint}
-        deletePlotPoint={deletePlotPoint}
-      />}
+      {
+        isLargeModalOpen && largeModalTypeEnum === LargeModalTypeEnum.PLOT_POINTS &&
+        <PlotPointsModal
+          closeModal={closeLargeModal}
+          plotPoints={plotPoints}
+          addPlotPoint={addPlotPoint}
+          updatePlotPoint={updatePlotPoint}
+          deletePlotPoint={deletePlotPoint}
+        />
+      }
+      {
+        isLargeModalOpen && largeModalTypeEnum === LargeModalTypeEnum.QUESTS &&
+        <QuestsModal
+          closeModal={closeLargeModal}
+          quests={quests}
+          addNewQuest={addNewQuest}
+          updateQuest={updateQuest}
+          deleteQuests={deleteQuest}
+        />
+      }
     </>
   );
 }
