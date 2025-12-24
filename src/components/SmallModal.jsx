@@ -21,8 +21,8 @@ export default function SmallModal({ smallModalTypeEnum, onConfirm, onCancel }) 
           placeholder="Enter the game name"
         />
         <div className="small-modal-buttons">
-          <button onClick={handleSave}>{buttonTitle}</button>
           <button onClick={onCancel}>Cancel</button>
+          <button onClick={handleSave}>{buttonTitle}</button>
         </div>
       </div>
     </div>

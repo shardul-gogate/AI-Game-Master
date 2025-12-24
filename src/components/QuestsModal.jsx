@@ -109,10 +109,10 @@ function EditQuestCard ({ quest, handleEdit, cancelEdit}) {
     <div className="quest-card">
       <div className="card-icon-button-row">
         <select className="quest-status" value={status} onChange={(e) => setStatus(e.target.value)}>
-        <option className="quest-active" value={QuestStatusEnum.ACTIVE}>Active</option>
-        <option className="quest-inactive" value={QuestStatusEnum.INACTIVE}>Inactive</option>
-        <option className="quest-finished" value={QuestStatusEnum.FINISHED}>Finished</option>
-      </select>
+          <option className="quest-active" value={QuestStatusEnum.ACTIVE}>Active</option>
+          <option className="quest-inactive" value={QuestStatusEnum.INACTIVE}>Inactive</option>
+          <option className="quest-finished" value={QuestStatusEnum.FINISHED}>Finished</option>
+        </select>
         <CardIconButton icon={CardIconButtonEnum.CANCEL} onClick={cancelEdit}/>
         <CardIconButton icon={CardIconButtonEnum.DONE} onClick={() => {handleEdit({ name, status, description, objectives })}}/>
       </div>

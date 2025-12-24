@@ -8,6 +8,7 @@
     --success-color: #2e7d32;
     --error-color: #d32f2f;
     --shadow-color: #202020;
+    --line-height: 1.4
 }
 
 @import url('https://fonts.googleapis.com/css2?family=Almendra:wght@400;700&display=swap');
@@ -61,7 +62,7 @@ body {
 .canvas {
     flex: 5;
     overflow-y: auto;
-    line-height: 1.6;
+    line-height: var(--line-height);
     white-space: pre-wrap;
     font-size: 30px;
 }
@@ -95,7 +96,7 @@ body {
 
 .canvas-message-edit, .user-input {
     font-size: 30px;
-    line-height: 1.6;
+    line-height: var(--line-height);
     min-height: 24px;
     overflow-y: auto;
     font-family: 'Grenze';
@@ -231,6 +232,8 @@ body {
   background-color: var(--primary-accent-color);
   color: var(--text-color);
   font-weight: bold;
+  font-size: 18px;
+  font-family: "Grenze";
 }
 
 .small-modal-buttons button:hover {
@@ -355,7 +358,7 @@ body {
 
 .plot-point-card textarea, .quest-card textarea {
     font-size: 21px;
-    line-height: 1.6;
+    line-height: var(--line-height);
     min-height: 24px;
     overflow-y: auto;
     font-family: 'Grenze';
@@ -427,4 +430,56 @@ body {
 .quest-objective .name-input {
     font-size: 18px;
     width: 100%;
+}
+
+.settings-ollama-models {
+    display: flex;
+    gap: 18px;
+    justify-content: center;
+}
+
+.settings-ollama-models span {
+    font-size: 24px;
+}
+
+.settings-ollama-models select {
+    color: var(--white);
+    background-color: var(--hover-background-color);
+    font-family: "Grenze";
+    font-size: 18px;
+}
+
+.settings-system-instructions {
+    width: 80%;
+    align-self: center;
+    font-size: 24px;
+    line-height: var(--line-height);
+    font-family: 'Grenze';
+    background: transparent;
+    color: var(--text-color);
+    padding: 6px 6px;
+    resize: none;
+    border: none;
+    outline: 1px solid var(--primary-accent-color);
+}
+
+.settings-system-instructions:focus {
+    outline: 1px solid var(--primary-accent-color);
+}
+
+.settings-save-button {
+  padding: 6px 18px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  background-color: var(--primary-accent-color);
+  color: var(--text-color);
+  font-size: 18px;
+  font-family: "Grenze";
+  width: 5%;
+  align-self: center;
+}
+
+.settings-save-button:hover {
+    opacity: 0.9;
 }

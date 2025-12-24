@@ -13,6 +13,10 @@ import SmallModal from "./components/SmallModal";
 import PlotPointsModal from "./components/PlotPointsModal";
 import { LargeModalTypeEnum } from "./utils/enums";
 import QuestsModal from "./components/QuestsModal";
+import SettingsModal from "./components/SettingsModal";
+import { useOllama } from "./hooks/useOllama";
+import { useSettings } from "./hooks/useSettings";
+import { buildAIPrompt } from "./utils/buildPrompt";
 
 export default function GameMaster() {
   const [prompt, setPrompt] = useState("");
@@ -38,13 +42,14 @@ export default function GameMaster() {
   const {
     messages,
     setMessages,
-    loading,
     eraseLastMessage,
-    retry,
-    continueChat,
     send,
     saveHistory
   } = useGameProgress(quests, plotPoints, gameState);
+
+  const { models, generate, loading } = useOllama();
+
+  const { settings, saveSettings } = useSettings();
 
   const {
     isSmallModalOpen,
@@ -61,11 +66,28 @@ export default function GameMaster() {
     closeModal: closeLargeModal
   } = useLargeModal();
 
-  const handleSendPrompt = () => {
+  const handleOnCompletion = (data) => {
+    setMessages((prev) => [...prev, data]);
+  }
+
+  const handleSend = () => {
     const trimmedPrompt = prompt.trim();
     if (!trimmedPrompt) return;
     send(trimmedPrompt);
     setPrompt("");
+    const builtPrompt = buildAIPrompt(messages, quests, plotPoints, gameState)
+    generate(builtPrompt, settings, handleOnCompletion);
+  };
+
+  const handleRetry = () => {
+    eraseLastMessage();
+    const prompt = buildAIPrompt(messages, quests, plotPoints, gameState)
+    generate(prompt, settings, handleOnCompletion);
+  };
+
+  const handleContinue = () => {
+    const prompt = buildAIPrompt(messages, quests, plotPoints, gameState)
+    generate(prompt, settings, handleOnCompletion);
   };
 
   return (
@@ -88,11 +110,11 @@ export default function GameMaster() {
           value={prompt}
           onChange={setPrompt}
           placeholder="Describe your action or dialogue . . ."
-          onSend={handleSendPrompt}
+          onSend={handleSend}
           loading={loading}
           eraseLastMessage={eraseLastMessage}
-          retry={retry}
-          continueChat={continueChat}
+          retry={handleRetry}
+          continueChat={handleContinue}
         />
       </div>
       {isSmallModalOpen && <SmallModal smallModalTypeEnum={smallModalTypeEnum} onConfirm={handleSaveSmallModal} onCancel={handleCancelSmallModal} />}
@@ -114,6 +136,15 @@ export default function GameMaster() {
           addNewQuest={addNewQuest}
           updateQuest={updateQuest}
           deleteQuests={deleteQuest}
+        />
+      }
+      {
+        isLargeModalOpen && largeModalTypeEnum === LargeModalTypeEnum.SETTINGS &&
+        <SettingsModal
+          settings={settings}
+          saveSettings={saveSettings}
+          ollamaModels={models}
+          closeModal={closeLargeModal}
         />
       }
     </>

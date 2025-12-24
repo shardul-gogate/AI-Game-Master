@@ -8,6 +8,7 @@ const FilePath_PlotPoints = path.join(__dirname, "../data/plotpoints.json");
 const FilePath_Quests = path.join(__dirname, "../data/quests.json");
 const FilePath_GameState = path.join(__dirname, "../data/gamestate.json");
 const FilePath_Progress = path.join(__dirname, "../data/progress.json");
+const FilePath_OllamaSettings = path.join(__dirname, "../data/ollamasettings.json");
 
 const Api_Base = "/api/";
 const Api_PlotPoints = Api_Base + "plotpoints";
@@ -16,13 +17,17 @@ const Api_GameState = Api_Base + "gamestate";
 const Api_Progress = Api_Base + "progress";
 const Api_FullSave = Api_Base + "fullsave";
 const Api_LoadGame = Api_Base + "loadgame";
+const Api_Ollama_Models = Api_Base + "ollama/models";
+const Api_Ollama_Generate = Api_Base + "ollama/generate";
+const Api_Settings = Api_Base + "settings";
 
 export const Ollama_Host_URL = process.env.OLLAMA_URL || "http://localhost:11434";
 export const FilePaths = {
     FilePath_PlotPoints,
     FilePath_Quests,
     FilePath_GameState,
-    FilePath_Progress
+    FilePath_Progress,
+    FilePath_OllamaSettings
 }
 export const ApiPaths = {
     Api_PlotPoints,
@@ -30,5 +35,8 @@ export const ApiPaths = {
     Api_GameState,
     Api_Progress,
     Api_FullSave,
-    Api_LoadGame
+    Api_LoadGame,
+    Api_Ollama_Models,
+    Api_Ollama_Generate,
+    Api_Settings
 }
