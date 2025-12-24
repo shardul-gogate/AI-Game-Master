@@ -32,20 +32,18 @@ export function buildAIPrompt(messages, quests, plotPoints, gameState) {
 
   // Build final prompt
   const prompt = `
-  Story Context:
+  Story:
   ${contextMessages}
 
-  Active Quests:
-  ${questText || "None"}
+  ${questText ? `Active Quests:
+  ${questText}` : ''}
 
   Relevant Plot Elements:
   ${plotPointText || "None"}
 
-  In-game Date and Time:
-  ${gameState.date || "<unknown>"}, ${gameState.day || "<unknown>"}, ${gameState.timeOfDay || "<unknown>"}
-
   Player Input:
   ${latestInput}
   `;
+  console.log(prompt);
   return prompt;
 }

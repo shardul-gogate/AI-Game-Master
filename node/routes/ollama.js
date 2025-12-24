@@ -20,13 +20,15 @@ export default function register(app) {
   });
 
   app.post(ApiPaths.Api_Ollama_Generate, async (req, res) => {
-    const { prompt, model } = req.body;
+    const { prompt, model, system, options } = req.body;
 
     try {
       const payload = {
         model,
         prompt,
-        stream: false,
+        system,
+        options,
+        stream: false
       };
 
       const ollamaResponse = await fetch(`${Ollama_Host_URL}/api/generate`, {

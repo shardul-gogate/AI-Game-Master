@@ -1,7 +1,13 @@
 import fs from "fs";
 
 export const getGameFilesToCopy = () => {
-    return ["gamestate.json", "plotpoints.json", "progress.json", "quests.json"];
+    return [
+        "gamestate.json",
+        "plotpoints.json",
+        "progress.json",
+        "quests.json",
+        "ollamasettings.json"
+    ];
 };
 
 export const readFile = async (filePath) => {

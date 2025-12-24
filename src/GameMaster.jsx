@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import UserInput from "./components/UserInput";
 import Canvas from "./components/Canvas";
 import { useGameProgress } from "./hooks/useGameProgress";
@@ -17,38 +17,21 @@ import SettingsModal from "./components/SettingsModal";
 import { useOllama } from "./hooks/useOllama";
 import { useSettings } from "./hooks/useSettings";
 import { buildAIPrompt } from "./utils/buildPrompt";
+import { ApiPaths } from "./utils/constants";
+import api from "./utils/api";
 
 export default function GameMaster() {
   const [prompt, setPrompt] = useState("");
+  const [messages, setMessages] = useState([]);
 
-  const { gameState } = useGameState();
-  
-  const {
-    plotPoints,
-    addPlotPoint,
-    updatePlotPoint,
-    deletePlotPoint
-  } = usePlotPoints();
-  
-  const {
-    quests,
-    addNewQuest,
-    updateQuest,
-    deleteQuest
-  } = useQuests();
+  useEffect(() => { api.get(ApiPaths.Api_Progress).then((data) => setMessages(data)); }, []);
 
+  const { gameState } = useGameState();  
+  const { plotPoints, addPlotPoint, updatePlotPoint, deletePlotPoint } = usePlotPoints();
+  const { quests, addNewQuest, updateQuest, deleteQuest } = useQuests();
   const { saveFullGame, loadGame } = useFullSave();
-  
-  const {
-    messages,
-    setMessages,
-    eraseLastMessage,
-    send,
-    saveHistory
-  } = useGameProgress(quests, plotPoints, gameState);
-
+  const { saveHistory } = useGameProgress();
   const { models, generate, loading } = useOllama();
-
   const { settings, saveSettings } = useSettings();
 
   const {
@@ -66,35 +49,35 @@ export default function GameMaster() {
     closeModal: closeLargeModal
   } = useLargeModal();
 
-  const handleOnCompletion = (data) => {
-    setMessages((prev) => [...prev, data]);
-  }
+  const eraseLastMessage = () => setMessages(m => m.slice(0, -1));
 
+  const handleOnCompletion = (data) => { setMessages((prev) => [...prev, data]); }
+  
   const handleSend = () => {
     const trimmedPrompt = prompt.trim();
     if (!trimmedPrompt) return;
-    send(trimmedPrompt);
+    setMessages((prev) => [...prev, trimmedPrompt]);
     setPrompt("");
-    const builtPrompt = buildAIPrompt(messages, quests, plotPoints, gameState)
+    const builtPrompt = buildAIPrompt(messages, quests, plotPoints, gameState);
+    generate(builtPrompt, settings, handleOnCompletion);
+  }
+
+  const handleRetry = () => {
+    setMessages((prev) => prev.slice(0, -1));
+    const builtPrompt = buildAIPrompt(messages, quests, plotPoints, gameState);
     generate(builtPrompt, settings, handleOnCompletion);
   };
 
-  const handleRetry = () => {
-    eraseLastMessage();
-    const prompt = buildAIPrompt(messages, quests, plotPoints, gameState)
-    generate(prompt, settings, handleOnCompletion);
-  };
-
   const handleContinue = () => {
-    const prompt = buildAIPrompt(messages, quests, plotPoints, gameState)
-    generate(prompt, settings, handleOnCompletion);
+    const builtPrompt = buildAIPrompt(messages, quests, plotPoints, gameState)
+    generate(builtPrompt, settings, handleOnCompletion);
   };
 
   return (
     <>
       <div className="game-master">
         <TopAppBar
-          saveHistory={saveHistory}
+          saveHistory={() => saveHistory(messages)}
           openSmallModal={openSmallModal}
           openLargeModal={openLargeModal}
         />
