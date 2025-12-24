@@ -58,13 +58,14 @@ export default function GameMaster() {
     if (!trimmedPrompt) return;
     setMessages((prev) => [...prev, trimmedPrompt]);
     setPrompt("");
-    const builtPrompt = buildAIPrompt(messages, quests, plotPoints, gameState);
+    const builtPrompt = buildAIPrompt([...messages, trimmedPrompt], quests, plotPoints, gameState);
     generate(builtPrompt, settings, handleOnCompletion);
   }
 
   const handleRetry = () => {
-    setMessages((prev) => prev.slice(0, -1));
-    const builtPrompt = buildAIPrompt(messages, quests, plotPoints, gameState);
+    const newMessages = messages.slice(0, -1);
+    setMessages(newMessages);
+    const builtPrompt = buildAIPrompt(newMessages, quests, plotPoints, gameState);
     generate(builtPrompt, settings, handleOnCompletion);
   };
 
