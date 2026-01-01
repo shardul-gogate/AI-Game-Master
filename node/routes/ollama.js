@@ -19,7 +19,7 @@ export default function register(app) {
     }
   });
 
-  app.post(ApiPaths.Api_Ollama_Generate, async (req, res) => {
+  app.post(ApiPaths.Api_Ollama_Generate_Stream, async (req, res) => {
     const { prompt, model, system, options } = req.body;
 
     try {
@@ -28,40 +28,35 @@ export default function register(app) {
         prompt,
         system,
         options,
-        stream: false
+        stream: true
       };
 
-      const ollamaResponse = await fetch(`${Ollama_Host_URL}/api/generate`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
+      res.setHeader('Content-Type', 'application/json');
+      res.setHeader('Cache-Control', 'no-cache');
+      res.setHeader('Connection', 'keep-alive');
 
-      if (!ollamaResponse.ok) {
-        const errText = await ollamaResponse.text();
-        return res
-          .status(502)
-          .json({
-            ok: false,
-            message: "Ollama error",
-            error: errText,
-          });
+      const stream = await ollama.generate(payload);
+
+      for await (const chunk of stream) {
+        res.write(JSON.stringify(chunk) + '\n');
       }
 
-      const data = await ollamaResponse.json();
-      return res.json({
-        ok: true,
-        message: "",
-        data: data.response,
-      });
+      res.end();
+
     } catch (err) {
-      return res
-        .status(500)
-        .json({
-          ok: false,
-          message: "An unexpected error occurred",
-          error: err.message,
-        });
+      // This will not be sent to the client if headers are already sent
+      if (!res.headersSent) {
+        return res
+          .status(500)
+          .json({
+            ok: false,
+            message: "An unexpected error occurred",
+            error: err.message,
+          });
+      } else {
+        console.error("An error occurred after headers were sent:", err);
+        res.end(); // End the stream
+      }
     }
   });
 }

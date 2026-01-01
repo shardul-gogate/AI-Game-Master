@@ -14,7 +14,7 @@ export function useOllama() {
     fetchModels();
   }, []);
 
-  async function generate(prompt, settings, onCompletion) {
+  async function generateStream(prompt, settings, onStream) {
     const { ollamaModel, systemInstructions, options } = settings;
     setLoading(true);
     const payload = {
@@ -23,15 +23,39 @@ export function useOllama() {
       system: systemInstructions,
       options: options
     };
+
+    let buffer = '';
+    const onChunk = (chunk) => {
+      buffer += chunk;
+      let boundary = buffer.lastIndexOf('\n');
+      if (boundary !== -1) {
+        let Tocomplete = buffer.substring(0, boundary);
+        const jsons = Tocomplete.split('\n').filter(s => s.trim());
+        for (const json of jsons) {
+          try {
+            const parsed = JSON.parse(json);
+            if (parsed.response) {
+              onStream(parsed.response);
+            }
+            if (parsed.done) {
+              setLoading(false);
+            }
+          } catch (e) {
+            console.error("Failed to parse JSON chunk:", json, e);
+          }
+        }
+        buffer = buffer.substring(boundary + 1);
+      }
+    };
+
     try {
-      const data = await api.post(ApiPaths.Api_Ollama_Generate, payload);
-      onCompletion(data || "No response")
+      await api.postStream(ApiPaths.Api_Ollama_Generate_Stream, payload, onChunk);
     } catch (e) {
-      onCompletion("Error: " + e.message)
-    } finally {
+      onStream("Error: " + e.message);
       setLoading(false);
     }
   }
 
-  return { models, generate, loading };
+
+  return { models, generate, generateStream, loading };
 }

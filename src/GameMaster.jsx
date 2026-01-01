@@ -32,7 +32,7 @@ export default function GameMaster() {
   const { quests, addNewQuest, updateQuest, deleteQuest } = useQuests();
   const { saveFullGame, loadGame } = useFullSave();
   const { saveHistory } = useGameProgress();
-  const { models, generate, loading } = useOllama();
+  const { models, generateStream, loading } = useOllama();
   const { settings, saveSettings } = useSettings(models);
 
   const {
@@ -52,27 +52,36 @@ export default function GameMaster() {
 
   const eraseLastMessage = () => setMessages(m => m.slice(0, -1));
 
-  const handleOnCompletion = (data) => { setMessages((prev) => [...prev, data]); }
+  const handleStream = (data) => {
+    setMessages((prev) => {
+      const newMessages = [...prev];
+      newMessages[newMessages.length - 1] += data;
+      return newMessages;
+    });
+  }
   
   const handleSend = () => {
     const trimmedPrompt = prompt.trim();
     if (!trimmedPrompt) return;
-    setMessages((prev) => [...prev, trimmedPrompt]);
+    const newMessages = [...messages, trimmedPrompt, ""];
+    setMessages(newMessages);
     setPrompt("");
     const builtPrompt = buildAIPrompt([...messages, trimmedPrompt], quests, plotPoints, gameState);
-    generate(builtPrompt, settings, handleOnCompletion);
+    generateStream(builtPrompt, settings, handleStream);
   }
 
   const handleRetry = () => {
     const newMessages = messages.slice(0, -1);
-    setMessages(newMessages);
+    setMessages([...newMessages, ""]);
     const builtPrompt = buildAIPrompt(newMessages, quests, plotPoints, gameState);
-    generate(builtPrompt, settings, handleOnCompletion);
+    generateStream(builtPrompt, settings, handleStream);
   };
 
   const handleContinue = () => {
+    const newMessages = [...messages, ""];
+    setMessages(newMessages);
     const builtPrompt = buildAIPrompt(messages, quests, plotPoints, gameState)
-    generate(builtPrompt, settings, handleOnCompletion);
+    generateStream(builtPrompt, settings, handleStream);
   };
 
   return (
