@@ -57,5 +57,5 @@ export function useOllama() {
   }
 
 
-  return { models, generate, generateStream, loading };
+  return { models, generateStream, loading };
 }
