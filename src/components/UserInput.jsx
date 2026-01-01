@@ -2,7 +2,7 @@ import { useRef, useEffect } from "react";
 import { InputIcon } from "./InputIcon";
 import { InputIconEnum } from "../utils/enums";
 
-export default function UserInput({ value, onChange, placeholder, onSend, loading, eraseLastMessage, retry, continueChat}) {
+export default function UserInput({ value, onChange, placeholder, onSend, eraseLastMessage, retry, continueChat}) {
   const textareaRef = useRef(null);
 
   useEffect(() => {
@@ -20,13 +20,18 @@ export default function UserInput({ value, onChange, placeholder, onSend, loadin
         value={value}
         onChange={e => onChange(e.target.value)}
         placeholder={placeholder}
-        disabled={loading}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            onSend();
+          }
+        }}
       />
       <div className="user-input-icons">
-        <InputIcon icon={InputIconEnum.SEND} onClick={onSend} disabled={loading}/>
-        <InputIcon icon={InputIconEnum.DELETE}  onClick={eraseLastMessage} disabled={loading} />
-        <InputIcon icon={InputIconEnum.REGENERATE} onClick={retry} disabled={loading} />
-        <InputIcon icon={InputIconEnum.CONTINUE} onClick={continueChat} disabled={loading} />
+        <InputIcon icon={InputIconEnum.SEND} onClick={onSend} />
+        <InputIcon icon={InputIconEnum.DELETE}  onClick={eraseLastMessage} />
+        <InputIcon icon={InputIconEnum.REGENERATE} onClick={retry} />
+        <InputIcon icon={InputIconEnum.CONTINUE} onClick={continueChat} />
       </div>
     </div>
   );

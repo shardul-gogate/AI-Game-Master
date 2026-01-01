@@ -19,6 +19,7 @@ import { useSettings } from "./hooks/useSettings";
 import { buildAIPrompt } from "./utils/buildPrompt";
 import { ApiPaths } from "./utils/constants";
 import api from "./utils/api";
+import LoadingIndicator from "./components/LoadingIndicator";
 
 export default function GameMaster() {
   const [prompt, setPrompt] = useState("");
@@ -90,16 +91,20 @@ export default function GameMaster() {
             );
           }}
         />
-        <UserInput
-          value={prompt}
-          onChange={setPrompt}
-          placeholder="Describe your action or dialogue . . ."
-          onSend={handleSend}
-          loading={loading}
-          eraseLastMessage={eraseLastMessage}
-          retry={handleRetry}
-          continueChat={handleContinue}
-        />
+        {
+          loading ?
+          <LoadingIndicator />
+          :
+          <UserInput
+            value={prompt}
+            onChange={setPrompt}
+            placeholder="Describe your action or dialogue . . ."
+            onSend={handleSend}
+            eraseLastMessage={eraseLastMessage}
+            retry={handleRetry}
+            continueChat={handleContinue}
+          />
+        }
       </div>
       {isSmallModalOpen && <SmallModal smallModalTypeEnum={smallModalTypeEnum} onConfirm={handleSaveSmallModal} onCancel={handleCancelSmallModal} />}
       {

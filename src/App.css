@@ -2,7 +2,8 @@
     --background-color: #242424;
     --text-color: #f1f1f1;
     --hover-background-color: #373737;
-    --primary-accent-color: #e56717;
+    --primary-accent-color: #ff8c00;
+    --secondary-accent-color: #90d5ff;
     --disabled-text-color: #484848;
     --white: white;
     --success-color: #2e7d32;
@@ -497,4 +498,38 @@ body {
 
 .settings-save-button:hover {
     opacity: 0.9;
+}
+
+.loading-indicator {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 180px;
+}
+
+.loading-indicator:after {
+    content: "";
+    display: block;
+    border-radius: 50%;
+    width: 0;
+    height: 0;
+    margin: 8px;
+    box-sizing: border-box;
+    border: 48px solid var(--secondary-accent-color);
+    border-color: var(--secondary-accent-color) transparent var(--secondary-accent-color) transparent;
+    animation: loading-indicator 1.2s infinite;
+}
+
+@keyframes loading-indicator {
+    0% {
+        transform: rotate(0);
+        animation-timing-function: ease-out;
+    }
+    50% {
+        transform: rotate(360deg);
+        animation-timing-function: ease-in;
+    }
+    100% {
+        transform: rotate(720deg);
+    }
 }
