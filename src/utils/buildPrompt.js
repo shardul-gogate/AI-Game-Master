@@ -10,23 +10,36 @@ export function buildAIPrompt(messages, quests, plotPoints, gameState) {
     .slice(-1)[0]
     .trim();
 
-  const questText = quests
-    .filter(quest => quest.status === QuestStatusEnum.ACTIVE)
+  const activeQuestsText = quests
+    .filter(quest => quest.status === QuestStatusEnum.ACTIVE && (quest.sample === undefined || !quest.sample))
     .map(quest => {
       const objectives = quest.objectives
         .map(objective => `${objective.name} - [${objective.completed ? "done" : "pending"}]`)
         .join(", ");
-      return `Quest: ${quest.name} (Status: ${quest.status}) - Description: ${quest.description} - Objectives: ${objectives}`;
+      return `Quest: ${quest.name} (Status: ${quest.status})
+      Description: ${quest.description}
+      Objectives: ${objectives}`;
     })
     .join("\n");
 
-  const textToScan = contextMessages + "\n" + latestInput + "\n" + questText;
-  const triggeredPlotPoints = plotPoints.filter(plotPoint =>
-    plotPoint.triggers.some(trigger => {
-      const pattern = new RegExp(`\\b${trigger}\\b`, "i"); // word boundary, case-insensitive
-      return pattern.test(textToScan);
+  const otherQuestsText = quests
+    .filter(quest => quest.status !== QuestStatusEnum.ACTIVE && (quest.sample === undefined || !quest.sample))
+    .map(quest => {
+      return `Quest: ${quest.name} (Status: ${quest.status})
+      Description: ${quest.description}`;
     })
-  );
+    .join("\n");
+      
+
+  const textToScan = contextMessages + "\n" + latestInput + "\n" + activeQuestsText;
+  const triggeredPlotPoints = plotPoints
+    .filter(plotPoint => (plotPoint.sample === undefined || !plotPoint.sample))
+    .filter(plotPoint =>
+      plotPoint.triggers.some(trigger => {
+        const pattern = new RegExp(`\\b${trigger}\\b`, "i"); // word boundary, case-insensitive
+        return pattern.test(textToScan);
+      })
+    );
   console.log("# of Triggered Plot Points:", triggeredPlotPoints.length);
   const plotPointText = triggeredPlotPoints.map(plotPoint => `- ${plotPoint.description}`).join("\n");
 
@@ -34,16 +47,15 @@ export function buildAIPrompt(messages, quests, plotPoints, gameState) {
   const prompt = `
   Story:
   ${contextMessages}
-
-  ${questText ? `Active Quests:
-  ${questText}` : ''}
-
-  Relevant Plot Elements:
-  ${plotPointText || "None"}
-
+  ${activeQuestsText ? `\nActive Quests:
+  ${activeQuestsText}` : ''}
+  ${otherQuestsText ? `\nOther Quests:
+  ${otherQuestsText}` : ''}
+  ${plotPointText ? `\nRelevant Plot Elements:
+  ${plotPointText}` : ''}
+  
   Player Input:
   ${latestInput}
   `;
-  console.log(prompt);
   return prompt;
 }

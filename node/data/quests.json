@@ -1,1 +1,18 @@
-[]
+[
+	{
+    "name": "The Game Begins",
+    "description": "Quests help you and the AI keep track of your game progress, and also helps AI generate relevant responses.",
+    "sample": true,
+    "status": "Finished",
+    "objectives": [
+      {
+        "name": "You can add objectives",
+        "completed": false
+      },
+      {
+        "name": "And mark them finished",
+        "completed": true
+      }
+    ]
+  }
+]

@@ -13,7 +13,7 @@ export function useQuests() {
   const addNewQuest = (index) => {
     setQuests(prev => {
       const newQuests = [...prev];
-      newQuests.splice(index, 0, { name: "", status: "",description: "", objectives: [] });
+      newQuests.splice(index, 0, { name: "", status: "", description: "", objectives: [], sample: false });
       return newQuests;
     });
   };

@@ -71,13 +71,14 @@ export default function QuestsModal ({ closeModal, quests, addNewQuest, updateQu
 
 function QuestCard ({ quest, addNewQuest, editQuest, deleteQuest}) {
   const className = quest.status.toLowerCase()
+  const isSampleQuest = quest.sample || false
   return (
     <div className="quest-card">
       <div className="card-icon-button-row">
         <span className={`quest-status quest-${className}`}><FontAwesomeIcon icon={ faScroll } size='2x' /></span>
         <CardIconButton icon={CardIconButtonEnum.ADD} onClick={addNewQuest}/>
-        <CardIconButton icon={CardIconButtonEnum.EDIT} onClick={editQuest}/>
-        <CardIconButton icon={CardIconButtonEnum.DELETE} onClick={deleteQuest}/>
+        { !isSampleQuest && <CardIconButton icon={CardIconButtonEnum.EDIT} onClick={editQuest}/> }
+        { !isSampleQuest && <CardIconButton icon={CardIconButtonEnum.DELETE} onClick={deleteQuest}/>}
       </div>
       <span className="quest-name">{quest.name}</span>
       <span className="card-description">{quest.description}</span>

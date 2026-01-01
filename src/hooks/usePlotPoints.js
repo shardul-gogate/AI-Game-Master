@@ -13,7 +13,7 @@ export function usePlotPoints() {
   const addPlotPoint = (index) => {
     setPlotPoints(prev => {
       const newPlotPoints = [...prev];
-      newPlotPoints.splice(index, 0, { description: "", triggers: [] });
+      newPlotPoints.splice(index, 0, { description: "", triggers: [], sample: false });
       return newPlotPoints;
     });
   };

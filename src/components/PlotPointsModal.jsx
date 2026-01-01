@@ -68,12 +68,13 @@ export default function PlotPointsModal ({ closeModal, plotPoints, addPlotPoint,
 }
 
 function PlotPointCard ({ plotPoint, addPlotPoint, editPlotPoint, deletePlotPoint }) {
+  const isSamplePlotPoint = plotPoint.sample || false
   return (
     <div className="plot-point-card">
       <div className="card-icon-button-row">
         <CardIconButton icon={CardIconButtonEnum.ADD} onClick={addPlotPoint}/>
-        <CardIconButton icon={CardIconButtonEnum.EDIT} onClick={editPlotPoint}/>
-        <CardIconButton icon={CardIconButtonEnum.DELETE} onClick={deletePlotPoint}/>
+        {!isSamplePlotPoint && <CardIconButton icon={CardIconButtonEnum.EDIT} onClick={editPlotPoint}/>}
+        {!isSamplePlotPoint && <CardIconButton icon={CardIconButtonEnum.DELETE} onClick={deletePlotPoint}/>}
       </div>
       <span className="card-description">{plotPoint.description}</span>
       <div className="plot-point-triggers">

@@ -1,1 +1,11 @@
-[]
+[
+  {
+    "description": "This is a sample plotpoint. Plotpoints give AI the context of your game world",
+    "triggers": [
+      "add",
+      "plotpoint",
+      "triggers"
+    ],
+    "sample": true
+  }
+]
