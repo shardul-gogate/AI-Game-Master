@@ -27,7 +27,7 @@ export default function GameMaster() {
 
   useEffect(() => { api.get(ApiPaths.Api_Progress).then((data) => setMessages(data)); }, []);
 
-  const { gameState } = useGameState();  
+  const { gameState, updateGameState } = useGameState();  
   const { plotPoints, addPlotPoint, updatePlotPoint, deletePlotPoint } = usePlotPoints();
   const { quests, addNewQuest, updateQuest, deleteQuest } = useQuests();
   const { saveFullGame, loadGame } = useFullSave();
@@ -112,6 +112,8 @@ export default function GameMaster() {
             eraseLastMessage={eraseLastMessage}
             retry={handleRetry}
             continueChat={handleContinue}
+            gameState={gameState}
+            updateGameState={updateGameState}
           />
         }
       </div>

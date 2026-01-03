@@ -1,9 +1,31 @@
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 import { InputIcon } from "./InputIcon";
 import { InputIconEnum } from "../utils/enums";
 
-export default function UserInput({ value, onChange, placeholder, onSend, eraseLastMessage, retry, continueChat}) {
+export default function UserInput({ value, onChange, placeholder, onSend, eraseLastMessage, retry, continueChat, gameState, updateGameState }) {
   const textareaRef = useRef(null);
+
+  const [isEditingState, setIsEditingState] = useState(false)
+  const [dayAndDate, setDayAndDate] = useState(gameState.dayAndDate)
+  const [timeOfDay, setTimeOfDay] = useState(gameState.timeOfDay)
+
+  useEffect(() => {
+    setDayAndDate(gameState.dayAndDate)
+    setTimeOfDay(gameState.timeOfDay)
+  }, [gameState])
+
+
+  const startEditing = () => {
+    if (!isEditingState) {
+      setIsEditingState(true)
+    }
+  }
+  const stopEditing = () => {
+    if (isEditingState) {
+      setIsEditingState(false)
+      updateGameState({ dayAndDate, timeOfDay })
+    }
+  }
 
   useEffect(() => {
     if (textareaRef.current) {
@@ -27,11 +49,35 @@ export default function UserInput({ value, onChange, placeholder, onSend, eraseL
           }
         }}
       />
-      <div className="user-input-icons">
-        <InputIcon icon={InputIconEnum.SEND} onClick={onSend} />
-        <InputIcon icon={InputIconEnum.DELETE}  onClick={eraseLastMessage} />
-        <InputIcon icon={InputIconEnum.REGENERATE} onClick={retry} />
-        <InputIcon icon={InputIconEnum.CONTINUE} onClick={continueChat} />
+      <div className="game-state" onBlur={stopEditing} onClick={startEditing} >
+        {
+          isEditingState
+          ?
+          <input
+            className="game-state-input"
+            value={dayAndDate}
+            onChange={(e) => setDayAndDate(e.target.value)}
+          />
+          :
+          <span>{dayAndDate}</span>
+        }
+        {
+          isEditingState
+          ?
+          <input
+            className="game-state-input"
+            value={timeOfDay}
+            onChange={(e) => setTimeOfDay(e.target.value)}
+          />
+          :
+          <span>{timeOfDay}</span>
+        }
+        <div className="user-input-icons">
+          <InputIcon icon={InputIconEnum.SEND} onClick={onSend} />
+          <InputIcon icon={InputIconEnum.DELETE}  onClick={eraseLastMessage} />
+          <InputIcon icon={InputIconEnum.REGENERATE} onClick={retry} />
+          <InputIcon icon={InputIconEnum.CONTINUE} onClick={continueChat} />
+        </div>
       </div>
     </div>
   );

@@ -3,15 +3,14 @@ import { ApiPaths } from "../utils/constants";
 import api from "../utils/api";
 
 export function useGameState() {
-  const [gameState, setGameState] = useState({ date: "Unknown", day: "Unknown Day", timeOfDay: "Unknown Time" });
+  const [gameState, setGameState] = useState({ dayAndDate: "Unknown Day and Date", timeOfDay: "Unknown Time" });
 
   useEffect(() => {
     api.get(ApiPaths.Api_GameState)
       .then((data) => {
         setGameState({
-          date: data.date || "Unknown Date",
-          day: data.day || "Unknown Day",
-          timeOfDay: data.timeOfDay || "Unknown Time",
+          dayAndDate: data.dayAndDate,
+          timeOfDay: data.timeOfDay,
         });
       });
   }, []);

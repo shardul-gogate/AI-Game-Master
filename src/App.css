@@ -124,8 +124,29 @@ body {
 }
 
 .user-input {
-    max-height: 180px;
+    max-height: 210px;
     box-sizing: border-box;
+}
+
+.game-state {
+    align-items: center;
+    display: flex;
+    width: 100%;
+    font-size: 24px;
+}
+
+.game-state span {
+    padding: 0px 18px;
+}
+
+.game-state-input {
+    color: var(--text-color);
+    font-family: 'Grenze';
+    font-size: 24px;
+    width: 30%;
+    outline: none;
+    background: var(--hover-background-color);
+    border: none;
 }
 
 .canvas-input-icons, .user-input-icons {
@@ -139,7 +160,8 @@ body {
 }
 
 .user-input-icons {
-    width: 20%;
+    flex: auto;
+    width: 25%;
 }
 
 .user-input-icon-button {
