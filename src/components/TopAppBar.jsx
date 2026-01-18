@@ -5,7 +5,7 @@ export default function TopAppBar({ saveHistory, openSmallModal, openLargeModal 
 
   return (
     <div className='top-app-bar'>
-      <div className="top-app-bar-title">AI Game Master</div>
+      <div className="top-app-bar-title">RP-GPT</div>
       <div className='top-app-bar-button-row'>
         <IconButton icon={IconButtonEnum.QUICK_SAVE} onClick={saveHistory} />
         <IconButton

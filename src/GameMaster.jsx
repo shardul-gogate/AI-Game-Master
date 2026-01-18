@@ -61,12 +61,11 @@ export default function GameMaster() {
   }
   
   const handleSend = () => {
-    const trimmedPrompt = prompt.trim();
-    if (!trimmedPrompt) return;
-    const newMessages = [...messages, trimmedPrompt, ""];
+    if (!prompt) return;
+    const newMessages = [...messages, prompt, ""];
     setMessages(newMessages);
     setPrompt("");
-    const builtPrompt = buildAIPrompt([...messages, trimmedPrompt], quests, plotPoints, gameState);
+    const builtPrompt = buildAIPrompt([...messages, prompt], quests, plotPoints, gameState);
     generateStream(builtPrompt, settings, handleStream);
   }
 

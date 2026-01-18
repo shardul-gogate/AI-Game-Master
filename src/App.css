@@ -9,7 +9,7 @@
     --success-color: #2e7d32;
     --error-color: #d32f2f;
     --shadow-color: #202020;
-    --line-height: 1.4
+    --line-height: 1.4;
 }
 
 @import url('https://fonts.googleapis.com/css2?family=Almendra:wght@400;700&display=swap');
@@ -33,7 +33,7 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    font-size: 48px;
+    font-size: 45px;
     font-weight: bold;
 }
 
@@ -65,7 +65,7 @@ body {
     overflow-y: auto;
     line-height: var(--line-height);
     white-space: pre-wrap;
-    font-size: 30px;
+    font-size: 27px;
 }
 
 .canvas-message:hover {
@@ -96,7 +96,7 @@ body {
 }
 
 .canvas-message-edit, .user-input {
-    font-size: 30px;
+    font-size: 27px;
     line-height: var(--line-height);
     min-height: 24px;
     overflow-y: auto;
@@ -132,7 +132,7 @@ body {
     align-items: center;
     display: flex;
     width: 100%;
-    font-size: 24px;
+    font-size: 21px;
 }
 
 .game-state span {
@@ -142,7 +142,7 @@ body {
 .game-state-input {
     color: var(--text-color);
     font-family: 'Grenze';
-    font-size: 24px;
+    font-size: 21px;
     width: 30%;
     outline: none;
     background: var(--hover-background-color);
@@ -233,7 +233,7 @@ body {
 }
 
 .small-modal input {
-  font-size: 18px;
+  font-size: 15px;
   padding: 6px;
   border-radius: 4px;
   border: 1px solid var(--primary-accent-color);
@@ -255,7 +255,7 @@ body {
   background-color: var(--primary-accent-color);
   color: var(--text-color);
   font-weight: bold;
-  font-size: 18px;
+  font-size: 15px;
   font-family: "Grenze";
 }
 
@@ -283,7 +283,7 @@ body {
     margin-right: auto;
     margin-left: auto;
     color: var(--text-color);
-    font-size: 36px;
+    font-size: 33px;
 }
 
 .large-modal input {
@@ -376,7 +376,7 @@ body {
     border-radius: 12px;
     padding: 1px 6px;
     color: var(--hover-background-color);
-    font-size: 18px;
+    font-size: 15px;
 }
 
 .plot-point-card textarea, .quest-card textarea {
@@ -399,7 +399,7 @@ body {
 }
 
 .plot-point-card input, .quest-card input {
-  font-size: 18px;
+  font-size: 15px;
   padding: 6px;
   border-radius: 4px;
   border: 1px solid var(--primary-accent-color);
@@ -413,7 +413,7 @@ body {
 }
 
 .quest-name {
-    font-size: 24px;
+    font-size: 21px;
     font-weight: bold;
     text-align: center;
     text-decoration: underline;
@@ -424,7 +424,7 @@ body {
     color: var(--white);
     background-color: var(--hover-background-color);
     font-family: "Grenze";
-    font-size: 18px;
+    font-size: 15px;
 }
 
 .quest-finished {
@@ -451,7 +451,7 @@ body {
 }
 
 .quest-objective .name-input {
-    font-size: 18px;
+    font-size: 15px;
     width: 100%;
 }
 
@@ -464,7 +464,7 @@ body {
 }
 
 .settings-ollama span {
-    font-size: 24px;
+    font-size: 21px;
     text-align: end;
     flex: 1;
 }
@@ -474,12 +474,12 @@ body {
     color: var(--white);
     background-color: var(--hover-background-color);
     font-family: "Grenze";
-    font-size: 18px;
+    font-size: 15px;
 }
 
 .settings-ollama input {
     flex: 1;
-    font-size: 18px;
+    font-size: 15px;
     padding: 6px;
     border-radius: 4px;
     border: 1px solid var(--primary-accent-color);
@@ -490,7 +490,7 @@ body {
 .settings-system-instructions {
     width: 80%;
     align-self: center;
-    font-size: 24px;
+    font-size: 21px;
     line-height: var(--line-height);
     font-family: 'Grenze';
     background: transparent;
@@ -512,7 +512,7 @@ body {
   cursor: pointer;
   background-color: var(--primary-accent-color);
   color: var(--text-color);
-  font-size: 18px;
+  font-size: 15px;
   font-family: "Grenze";
   width: 5%;
   align-self: center;

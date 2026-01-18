@@ -40,13 +40,13 @@ export default function Canvas({ messages, onEditMessage }) {
               onChange={setEditValue}
             />
           ) : (
-            <div
+            <span
               className="canvas-message"
               key={index}
               onClick={() => handleStartEdit(index, msg)}
             >
-              {msg}
-            </div>
+              {msg}{' '}
+            </span>
           )
         ))
       }

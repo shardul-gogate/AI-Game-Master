@@ -57,6 +57,16 @@ export default function SettingsModal({ settings, saveSettings, ollamaModels, cl
           />
         </div>
         <div className='settings-ollama'>
+          <span>top-k: </span>
+          <input
+            type="number"
+            value={options.top_k}
+            onChange={(e) => setOptions(
+              { ...options, top_k: parseInt(e.target.value) }
+            )}
+          />
+        </div>
+        <div className='settings-ollama'>
           <span>num_predict: </span>
           <input
             type="number"
@@ -73,6 +83,16 @@ export default function SettingsModal({ settings, saveSettings, ollamaModels, cl
             value={options.repeat_penalty}
             onChange={(e) => setOptions(
               { ...options, repeat_penalty: parseFloat(e.target.value) }
+            )}
+          />
+        </div>
+        <div className='settings-ollama'>
+          <span>repeat_last_n: </span>
+          <input
+            type="number"
+            value={options.repeat_last_n}
+            onChange={(e) => setOptions(
+              { ...options, repeat_last_n: parseInt(e.target.value) }
             )}
           />
         </div>

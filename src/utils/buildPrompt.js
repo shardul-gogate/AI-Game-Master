@@ -1,10 +1,26 @@
 import { QuestStatusEnum } from "./enums";
 
 export function buildAIPrompt(messages, quests, plotPoints, gameState) {
-  const contextMessages = messages
-    .slice(-20, -1) // take last 15 messages excluding the latest input
-    .map(message => message.trim())
-    .join(" ");
+  // Get last 4500 words of context
+  const allMessages = messages.slice(0, -1);
+  let wordCount = 0;
+  const contextMessagesList = [];
+
+  for (let i = allMessages.length - 1; i >= 0; i--) {
+    const message = allMessages[i].trim();
+    if (!message) continue;
+
+    const words = message.split(/\s+/);
+    const messageWordCount = words.length;
+
+    if (wordCount < 4500) {
+      contextMessagesList.unshift(message);
+      wordCount += messageWordCount;
+    } else {
+      break;
+    }
+  }
+  const contextMessages = contextMessagesList.join(" ");
 
   const latestInput = messages
     .slice(-1)[0]
@@ -29,7 +45,6 @@ export function buildAIPrompt(messages, quests, plotPoints, gameState) {
       Description: ${quest.description}`;
     })
     .join("\n");
-      
 
   const textToScan = contextMessages + "\n" + latestInput + "\n" + activeQuestsText;
   const triggeredPlotPoints = plotPoints
@@ -43,20 +58,18 @@ export function buildAIPrompt(messages, quests, plotPoints, gameState) {
   console.log("# of Triggered Plot Points:", triggeredPlotPoints.length);
   const plotPointText = triggeredPlotPoints.map(plotPoint => `- ${plotPoint.description}`).join("\n");
 
-  // Build final prompt
   const prompt = `
-  Story: ${contextMessages}
-  Player Action: ${latestInput}
-  
-  Day and Date: ${gameState.dayAndDate}
-  Time of Day: ${gameState.timeOfDay}
-
   ${activeQuestsText ? `\nActive Quests:
   ${activeQuestsText}` : ''}
   ${otherQuestsText ? `\nOther Quests:
   ${otherQuestsText}` : ''}
   ${plotPointText ? `\nRelevant Context:
   ${plotPointText}` : ''}
+  Current Day and Date: ${gameState.dayAndDate}
+  Current Time of Day: ${gameState.timeOfDay}
+  Story: ${contextMessages}
+  Prompt: ${latestInput}
   `;
+  console.log(prompt);
   return prompt;
 }
