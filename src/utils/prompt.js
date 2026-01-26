@@ -63,7 +63,7 @@ const buildGamePrompt = (summary, messages, quests, plotPoints, gameState) => {
     summaryText = buildSummary(summary);
   }
   const contextMessages = summaryText
-    ? getContextMessages(messages.slice(summary[summary.length - 1].lastIndex + 1), 1500).join(" ")
+    ? getContextMessages(messages.slice(summary[summary.length - 1].lastIndex - 3), 1500).join(" ")
     : getContextMessages(messages.slice(0, -1), 4500).join(" ");
   const latestInput = messages.slice(-1)[0].trim();
   const activeQuestsText = getActiveQuestsText(quests);
